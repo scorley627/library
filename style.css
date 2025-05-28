@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.book-card-area {
+  background-color: lightgray;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+.book-card {
+  background-color: white;
+  height: 150px;
+  position: relative;
+  padding: 8px;
+}
+
+.book-card h1 {
+  font-size: 1.4em;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.book-card h2 {
+  font-size: 0.9em;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.book-card h3 {
+  font-size: 0.7em;
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+}

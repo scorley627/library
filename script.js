@@ -25,13 +25,14 @@ function Book(id, title, author, numPages) {
 }
 
 function displayLibrary() {
-  const body = document.querySelector("body");
+  const bookCardArea = document.querySelector(".book-card-area");
   for (const book of library) {
     const card = document.createElement("div");
     const title = document.createElement("h1");
     const author = document.createElement("h2");
     const numPages = document.createElement("h3");
 
+    card.className = "book-card";
     title.textContent = book.title;
     author.textContent = "by " + book.author;
     numPages.textContent = book.numPages + " pages";
@@ -39,6 +40,6 @@ function displayLibrary() {
     card.appendChild(title);
     card.appendChild(author);
     card.appendChild(numPages);
-    body.appendChild(card);
+    bookCardArea.appendChild(card);
   }
 }
