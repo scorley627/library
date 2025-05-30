@@ -12,10 +12,17 @@
 }
 
 .book-card {
-  background-color: white;
   height: 150px;
   position: relative;
   padding: 8px;
+}
+
+.book-card--read {
+  background-color: lightgreen;
+}
+
+.book-card--unread {
+  background-color: rgb(252, 252, 123);
 }
 
 .book-card h1 {
