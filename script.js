@@ -17,6 +17,15 @@ Book.prototype.getSurname = function () {
   return surname;
 };
 
+Book.toggleHaveRead = function (bookID) {
+  for (const book of library) {
+    if (book.id == bookID) {
+      book.haveRead = !book.haveRead;
+      return;
+    }
+  }
+};
+
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 366, true);
 addBookToLibrary("The Great Gatsby", "F. Scott Fitzgerald", 180, true);
 addBookToLibrary("Anna Karenina", "Leo Tolstoy", 964, false);
@@ -51,6 +60,15 @@ function addBookToLibrary(title, author, numPages, haveRead) {
   }
 }
 
+function removeBookFromLibrary(bookID) {
+  let i = 0;
+  while (library[i].id != bookID) {
+    ++i;
+  }
+  library.splice(i, 1);
+  displayLibrary();
+}
+
 function displayLibrary() {
   const bookCardArea = document.querySelector(".book-card-area");
   bookCardArea.replaceChildren();
@@ -59,6 +77,8 @@ function displayLibrary() {
     const title = document.createElement("h1");
     const author = document.createElement("h2");
     const numPages = document.createElement("h3");
+    const removeButton = document.createElement("button");
+    const readButton = document.createElement("button");
 
     card.className = book.haveRead
       ? "book-card book-card--read"
@@ -66,18 +86,35 @@ function displayLibrary() {
     title.textContent = book.title;
     author.textContent = "by " + book.author;
     numPages.textContent = book.numPages + " pages";
+    removeButton.className = "book-card__remove-button";
+    removeButton.textContent = "Remove";
+    removeButton.dataset.bookID = book.id;
+    readButton.className = book.haveRead
+      ? "book-card__read-button book-card__read-button--unread"
+      : "book-card__read-button book-card__read-button--read";
+    readButton.textContent = book.haveRead ? "Unread" : "Read";
+    readButton.dataset.bookID = book.id;
 
     card.appendChild(title);
     card.appendChild(author);
     card.appendChild(numPages);
+    card.appendChild(removeButton);
+    card.appendChild(readButton);
     bookCardArea.appendChild(card);
   }
 }
 
 function handleClick(event) {
-  const isNewBookButton = event.target.className == "new-book-button";
-  const isDialogCloseButton =
-    event.target.className == "new-book-dialog__close-button";
+  const isNewBookButton = event.target.className.includes("new-book-button");
+  const isDialogCloseButton = event.target.className.includes(
+    "new-book-dialog__close-button"
+  );
+  const isRemoveBookButton = event.target.className.includes(
+    "book-card__remove-button"
+  );
+  const isReadButton = event.target.className.includes(
+    "book-card__read-button"
+  );
   const isDialogSubmitButton =
     event.target ==
     document.querySelector(".new-book-form button[type=submit]");
@@ -89,6 +126,11 @@ function handleClick(event) {
   } else if (isDialogSubmitButton) {
     event.preventDefault();
     submitNewBook();
+  } else if (isRemoveBookButton) {
+    removeBookFromLibrary(event.target.dataset.bookID);
+  } else if (isReadButton) {
+    Book.toggleHaveRead(event.target.dataset.bookID);
+    displayLibrary();
   }
 }
 
@@ -115,11 +157,7 @@ function submitNewBook() {
   const numPages = Number(numPagesField.value);
   const haveRead = haveReadField.checked;
 
-  const bookDialog = document.querySelector(".new-book-dialog");
-  const bookForm = document.querySelector(".new-book-form");
-  bookDialog.close();
-  bookForm.reset();
-
   addBookToLibrary(title, author, numPages, haveRead);
+  closeNewBookDialog();
   displayLibrary();
 }

@@ -15,7 +15,7 @@ body {
 }
 
 .book-card {
-  height: 150px;
+  height: 170px;
   position: relative;
   padding: 8px;
 }
@@ -45,6 +45,39 @@ body {
   position: absolute;
   bottom: 8px;
   right: 8px;
+}
+
+.book-card__remove-button {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background-color: rgb(255, 100, 100);
+  width: 70px;
+  height: 25px;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.book-card__read-button {
+  position: absolute;
+  bottom: 8px;
+  left: 90px;
+  width: 70px;
+  height: 25px;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.book-card__read-button--read {
+  background-color: lightgreen;
+}
+
+.book-card__read-button--unread {
+  background-color: rgb(252, 252, 123);
 }
 
 .new-book-button {
