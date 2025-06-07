@@ -1,30 +1,32 @@
 const library = [];
 
-function Book(id, title, author, numPages, haveRead) {
-  this.id = id;
-  this.title = title;
-  this.author = author;
-  this.numPages = numPages;
-  this.haveRead = haveRead;
-}
-
-Book.prototype.getSurname = function () {
-  const author = this.author.split(" ");
-  let surname = author.at(-1);
-  if (surname.toLowerCase().includes("jr")) {
-    surname = author.at(-2);
+class Book {
+  constructor(id, title, author, numPages, haveRead) {
+    this.id = id;
+    this.title = title;
+    this.author = author;
+    this.numPages = numPages;
+    this.haveRead = haveRead;
   }
-  return surname;
-};
 
-Book.toggleHaveRead = function (bookID) {
-  for (const book of library) {
-    if (book.id == bookID) {
-      book.haveRead = !book.haveRead;
-      return;
+  get surname() {
+    const author = this.author.split(" ");
+    let surname = author.at(-1);
+    if (surname.toLowerCase().includes("jr")) {
+      surname = author.at(-2);
+    }
+    return surname;
+  }
+
+  static toggleHaveRead(bookID) {
+    for (const book of library) {
+      if (book.id == bookID) {
+        book.haveRead = !book.haveRead;
+        return;
+      }
     }
   }
-};
+}
 
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 366, true);
 addBookToLibrary("The Great Gatsby", "F. Scott Fitzgerald", 180, true);
@@ -44,9 +46,9 @@ function addBookToLibrary(title, author, numPages, haveRead) {
 
   let i = 0;
   let added = false;
-  const newSurname = newBook.getSurname();
+  const newSurname = newBook.surname;
   while (i < library.length && !added) {
-    const currentSurname = library[i].getSurname();
+    const currentSurname = library[i].surname;
     if (newSurname.localeCompare(currentSurname) == -1) {
       library.splice(i, 0, newBook);
       added = true;
